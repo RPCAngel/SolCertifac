@@ -54,37 +54,31 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.IdAddenda }) |
                 @Html.ActionLink("Details", "Details", new { id = item.IdAddenda }) |
-                @*@Html.ActionLink("Home", "Delete", new { id = item.IdAddenda })*@
-                <a href="#" class="delete-link" data-id="@item.IdAddenda">Delete</a>
+                <a href="javascript:void(0);" class="delete-link" data-id="@item.IdAddenda">Delete</a>
             </td>
         </tr>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-    $(document).ready(function () {
-        $(".delete-link").click(function (e) {
-            e.preventDefault();
-            var id = $(this).data("id");
-
-            $.ajax({
-                url: "/Addendas/CambiarEstado", // Ruta a tu método CambiarEstado
-                type: "POST", // O GET según tu configuración
-                data: { id: id },
-                success: function (result) {
-                    if (result.success) {
-                        // Actualiza la vista o toma acciones adicionales si es necesario
-                        alert("Estado cambiado con éxito.");
-                    } else {
-                        alert("Error al cambiar el estado.");
-                    }
-                },
-                error: function () {
-                    alert("Error al realizar la solicitud.");
-                }
-            });
-        });
-    });
-        </script>
 
     }
 
 </table>
+<script>
+    $(document).ready(function () {
+        $(".delete-link").click(function () {
+            var id = $(this).data("id");
+            if (confirm("¿Estás seguro de que deseas cambiar el estado?")) {
+                $.ajax({
+                    url: "/Home/CambiarEstado/" + id,
+                    type: "POST",
+                    success: function () {
+                        // Actualizar la vista después de cambiar el estado
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Ha ocurrido un error al cambiar el estado.");
+                    }
+                });
+            }
+        });
+    });
+</script>
+

@@ -84,9 +84,17 @@ namespace Certifac.Controllers
                 return View();
             }
         }
-
-        
-       
-
+        [HttpPost]
+        public ActionResult CambiarEstado(int id)
+        {
+            var ad = db.Addendas.Find(id);
+            if (ad != null)
+            {
+                ad.Estado = !ad.Estado; // Invertir el estado actual
+                db.SaveChanges();
+                db.Dispose();
+            }
+            return RedirectToAction("Index"); // Redirigir de nuevo a la página de índice
+        }
     }
 }

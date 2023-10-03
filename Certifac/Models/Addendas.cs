@@ -21,12 +21,6 @@ namespace Certifac.Models
         public string Usuario { get; set; }
         public Nullable<bool> Estado { get; set; }
 
-        public void CambiarEstado()
-        {
-            if (Estado.HasValue)
-            {
-                Estado = !Estado;
-            }
-        }
+        
     }
 }
