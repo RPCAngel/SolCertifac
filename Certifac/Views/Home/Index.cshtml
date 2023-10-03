@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Certifac.Models.Addendas>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreAddenda)
+        </th>
+        <th>XML</th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.XML)
+            </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.FechaModificacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Usuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreAddenda)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.XML)
+                </td>*@
+            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                @Html.DisplayFor(modelItem => item.XML)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaModificacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.IdAddenda }) |
+                @Html.ActionLink("Details", "Details", new { id = item.IdAddenda }) |
+                @*@Html.ActionLink("Home", "Delete", new { id = item.IdAddenda })*@
+                <a href="#" class="delete-link" data-id="@item.IdAddenda">Delete</a>
+            </td>
+        </tr>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+    $(document).ready(function () {
+        $(".delete-link").click(function (e) {
+            e.preventDefault();
+            var id = $(this).data("id");
+
+            $.ajax({
+                url: "/Addendas/CambiarEstado", // Ruta a tu método CambiarEstado
+                type: "POST", // O GET según tu configuración
+                data: { id: id },
+                success: function (result) {
+                    if (result.success) {
+                        // Actualiza la vista o toma acciones adicionales si es necesario
+                        alert("Estado cambiado con éxito.");
+                    } else {
+                        alert("Error al cambiar el estado.");
+                    }
+                },
+                error: function () {
+                    alert("Error al realizar la solicitud.");
+                }
+            });
+        });
+    });
+        </script>
+
+    }
+
+</table>
